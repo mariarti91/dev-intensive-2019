@@ -1,5 +1,6 @@
 package ru.skillbranch.devintensive.models
 
+import ru.skillbranch.devintensive.Utils.Utils
 import java.util.*
 
 data class User(
@@ -41,12 +42,10 @@ data class User(
     companion object Factory{
         private var lastId : Int = -1
         fun makeUser(fullName: String?) : User{
-            //TODO use parseFullName instead of split
             lastId++
             val parts: List<String>? = fullName?.split(" ")
 
-            val firstName = parts?.getOrNull(0)
-            val lastName = parts?.getOrNull(1)
+            val (firstName, lastName) = Utils.parseFullName(fullName)
 
             return User(id ="$lastId", firstName = firstName, lastName = lastName)
         }
