@@ -35,5 +35,24 @@ fun Date.add(value: Int, units: TimeUnits): Date{
 }
 
 fun Date.humanizeDiff(date:Date = Date()):String{
-    return "это было так давно"
+    var diff = (Date().time - this.time)
+    var metrics = TimeUnits.SECOND
+
+    val isPast = diff > 0
+    if(!isPast) diff *= -1
+
+    if(diff <= 1) return "только что"
+    if(diff < 45)
+    {
+        return if(isPast) "несколько секунд назад" else "через несколько секунд"
+    }
+    return when(diff){
+        in 45..75 -> if(isPast) "минуту назад" else "через минуту"
+        in 75..45*MINUTE -> if(isPast) "${diff/ MINUTE} минут назад" else "через ${diff/ MINUTE} минут"
+        in 45*MINUTE..75*MINUTE -> if(isPast) "час назад" else "через час"
+        in 75*MINUTE..22*HOUR -> if(isPast) "${diff/ HOUR} часов назад" else "через ${diff/ HOUR} часов"
+        in 22*HOUR..26*HOUR -> if(isPast) "день назад" else "через день"
+        in 26*HOUR..360*DAY -> if(isPast) "${diff/ DAY} дней назад" else "через ${diff/ DAY} дней"
+        else -> if(isPast) "более года назад" else "более чем через год"
+    }
 }
