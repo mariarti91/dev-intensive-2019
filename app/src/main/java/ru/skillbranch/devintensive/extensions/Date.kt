@@ -33,3 +33,7 @@ fun Date.add(value: Int, units: TimeUnits): Date{
     this.time = time
     return this
 }
+
+fun Date.humanizeDiff(date:Date = Date()):String{
+    return "это было так давно"
+}
