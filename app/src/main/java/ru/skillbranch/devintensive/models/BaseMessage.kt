@@ -10,5 +10,5 @@ abstract class BaseMessage(
     val date: Date = Date()
 ) {
 
-    abstract fun formatMessage():String 
+    abstract fun formatMessage():String
 }
