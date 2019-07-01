@@ -19,12 +19,12 @@ abstract class BaseMessage(
 
     companion object AbstractFactory{
         var lastId = -1
-        fun makeMessage(from:User?, chat:Chat, date:Date = Date(), type:MessageTypes = MessageTypes.TEXT, payload:Any?):BaseMessage{
+        fun makeMessage(from:User?, chat:Chat, date:Date = Date(), type:String= "text", payload:Any?):BaseMessage{
             lastId++
             return when(type)
             {
-                MessageTypes.TEXT -> TextMessage("$lastId", from, chat, date=date, text = payload as String)
-                MessageTypes.IMAGE -> ImageMessage("$lastId", from, chat, date=date, image = payload as String)
+                "image" -> TextMessage("$lastId", from, chat, date=date, text = payload as String)
+                else -> ImageMessage("$lastId", from, chat, date=date, image = payload as String)
             }
         }
     }
