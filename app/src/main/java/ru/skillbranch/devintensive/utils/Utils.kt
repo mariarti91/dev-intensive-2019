@@ -1,6 +1,4 @@
-package ru.skillbranch.devintensive.Utils
-
-import java.io.File
+package ru.skillbranch.devintensive.utils
 
 object  Utils {
     fun parseFullName(fullName: String?):Pair<String?, String?>{
