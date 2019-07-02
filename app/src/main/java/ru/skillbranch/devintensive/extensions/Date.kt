@@ -47,19 +47,19 @@ fun Date.humanizeDiff(date:Date = Date()):String{
         return if(isPast) "несколько секунд назад" else "через несколько секунд"
     }
     return when(diff){
-        in 45..75 -> if(isPast) "минуту назад" else "через минуту"
-        in 75..45*MINUTE -> {
+        in 45..74 -> if(isPast) "минуту назад" else "через минуту"
+        in 75..44*MINUTE -> {
             val n = diff / MINUTE
             val m = getCorrectMetric(n, TimeUnits.MINUTE)
             if (isPast) "$n $m назад" else "через $n $m"
         }
-        in 45*MINUTE..75*MINUTE -> if(isPast) "час назад" else "через час"
-        in 75*MINUTE..22*HOUR -> {
+        in 45*MINUTE..74*MINUTE -> if(isPast) "час назад" else "через час"
+        in 75*MINUTE..21*HOUR -> {
             val n = diff/HOUR
             val m = getCorrectMetric(n, TimeUnits.HOUR)
             if(isPast) "$n $m назад" else "через $n $m"
         }
-        in 22*HOUR..26*HOUR -> if(isPast) "день назад" else "через день"
+        in 22*HOUR..25*HOUR -> if(isPast) "день назад" else "через день"
         in 26*HOUR..360*DAY -> {
             val n = diff/DAY
             val m = getCorrectMetric(n, TimeUnits.DAY)
