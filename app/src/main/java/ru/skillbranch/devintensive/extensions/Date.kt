@@ -48,11 +48,54 @@ fun Date.humanizeDiff(date:Date = Date()):String{
     }
     return when(diff){
         in 45..75 -> if(isPast) "минуту назад" else "через минуту"
-        in 75..45*MINUTE -> if(isPast) "${diff/ MINUTE} минут назад" else "через ${diff/ MINUTE} минут"
+        in 75..45*MINUTE -> {
+            val n = diff / MINUTE
+            val m = getCorrectMetric(n, TimeUnits.MINUTE)
+            if (isPast) "$n $m назад" else "через $n $m"
+        }
         in 45*MINUTE..75*MINUTE -> if(isPast) "час назад" else "через час"
-        in 75*MINUTE..22*HOUR -> if(isPast) "${diff/ HOUR} часов назад" else "через ${diff/ HOUR} часов"
+        in 75*MINUTE..22*HOUR -> {
+            val n = diff/HOUR
+            val m = getCorrectMetric(n, TimeUnits.HOUR)
+            if(isPast) "$n $m назад" else "через $n $m"
+        }
         in 22*HOUR..26*HOUR -> if(isPast) "день назад" else "через день"
-        in 26*HOUR..360*DAY -> if(isPast) "${diff/ DAY} дней назад" else "через ${diff/ DAY} дней"
+        in 26*HOUR..360*DAY -> {
+            val n = diff/DAY
+            val m = getCorrectMetric(n, TimeUnits.DAY)
+            if(isPast) "$n $m назад" else "через $n $m"
+        }
         else -> if(isPast) "более года назад" else "более чем через год"
+    }
+}
+
+fun getCorrectMetric(N:Long = 1, unit:TimeUnits = TimeUnits.MINUTE):String{
+    return when(N)
+    {
+        0L -> when(unit) {
+            TimeUnits.SECOND -> "секунд"
+            TimeUnits.MINUTE -> "минут"
+            TimeUnits.HOUR -> "часов"
+            TimeUnits.DAY -> "дней"
+        }
+        1L -> when(unit){
+            TimeUnits.SECOND -> "секунду"
+            TimeUnits.MINUTE -> "минуту"
+            TimeUnits.HOUR -> "час"
+            TimeUnits.DAY -> "день"
+        }
+        in 2..4 -> when(unit){
+            TimeUnits.SECOND -> "секунды"
+            TimeUnits.MINUTE -> "минуты"
+            TimeUnits.HOUR -> "часа"
+            TimeUnits.DAY -> "дня"
+        }
+        in 5..20 -> when(unit){
+            TimeUnits.SECOND -> "секунд"
+            TimeUnits.MINUTE -> "минут"
+            TimeUnits.HOUR -> "часов"
+            TimeUnits.DAY -> "дней"
+        }
+        else -> getCorrectMetric(N%10, unit)
     }
 }
