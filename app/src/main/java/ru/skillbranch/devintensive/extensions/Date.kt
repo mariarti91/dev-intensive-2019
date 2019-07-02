@@ -41,27 +41,27 @@ fun Date.humanizeDiff(date:Date = Date()):String{
     val isPast = diff > 0
     if(!isPast) diff *= -1
 
-    if(diff <= 1) return "только что"
-    if(diff < 45)
+    if(diff <= 2 * SECOND) return "только что"
+    if(diff <= 46 * SECOND)
     {
         return if(isPast) "несколько секунд назад" else "через несколько секунд"
     }
     return when(diff){
-        in 45..74 -> if(isPast) "минуту назад" else "через минуту"
-        in 75..44*MINUTE -> {
-            val n = diff / MINUTE
+        in 45*SECOND..75*SECOND -> if(isPast) "минуту назад" else "через минуту"
+        in 75*SECOND..46*MINUTE -> {
+            val n = Math.round(diff.toDouble() / MINUTE)
             val m = getCorrectMetric(n, TimeUnits.MINUTE)
             if (isPast) "$n $m назад" else "через $n $m"
         }
-        in 45*MINUTE..74*MINUTE -> if(isPast) "час назад" else "через час"
-        in 75*MINUTE..21*HOUR -> {
-            val n = diff/HOUR
+        in 45*MINUTE..76*MINUTE -> if(isPast) "час назад" else "через час"
+        in 75*MINUTE..22*HOUR -> {
+            val n = Math.round(diff.toDouble() / HOUR)
             val m = getCorrectMetric(n, TimeUnits.HOUR)
             if(isPast) "$n $m назад" else "через $n $m"
         }
-        in 22*HOUR..25*HOUR -> if(isPast) "день назад" else "через день"
-        in 26*HOUR..360*DAY -> {
-            val n = diff/DAY
+        in 22*HOUR..27*HOUR -> if(isPast) "день назад" else "через день"
+        in 26*HOUR..361*DAY -> {
+            val n = Math.round(diff.toDouble() / DAY)
             val m = getCorrectMetric(n, TimeUnits.DAY)
             if(isPast) "$n $m назад" else "через $n $m"
         }
