@@ -41,13 +41,60 @@ data class User(
 
     companion object Factory{
         private var lastId : Int = -1
-        fun makeUser(fullName: String?) : User{
+        fun makeUser(fullName: String?) : User {
             lastId++
-            val parts: List<String>? = fullName?.split(" ")
-
             val (firstName, lastName) = Utils.parseFullName(fullName)
 
-            return User(id ="$lastId", firstName = firstName, lastName = lastName)
+            return User(id = "$lastId", firstName = firstName, lastName = lastName)
+        }
+    }
+
+    class Builder(){
+        var id:String = "-1"
+        var firstName:String? = null
+        var lastName: String? = null
+        var avatar: String? = null
+        var rating:Int = 0
+        var respect: Int = 0
+        var lastVisit:Date = Date()
+        var isOnline:Boolean = false
+
+        fun id(s:String):Builder{
+            id = s
+            return this
+        }
+
+        fun firstName(s:String?):Builder{
+            firstName = s
+            return this
+        }
+        fun lastName(s:String?):Builder{
+            lastName = s
+            return this
+        }
+        fun avatar(s:String?):Builder{
+            avatar = s
+            return this
+        }
+        fun rating(n:Int):Builder{
+            rating = n
+            return this
+        }
+        fun respect(n:Int):Builder{
+            respect = n
+            return this
+        }
+        fun lastVisit(d:Date):Builder{
+            lastVisit = d
+            return this
+        }
+        fun isOnline(b:Boolean):Builder{
+            isOnline = b
+            return this
+        }
+        fun build():User{
+            lastId++
+            return User(id, firstName, lastName, avatar, rating, respect, lastVisit, isOnline)
         }
     }
 }
