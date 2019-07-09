@@ -61,47 +61,22 @@ fun Date.humanizeDiff(date:Date = Date()):String{
         Math.round(diff.toDouble() / SECOND) <= 45 -> if(isPast) "несколько секунд назад" else "через несколько секунд"
         Math.round(diff.toDouble() / SECOND) <= 75 -> if(isPast) "минуту назад" else "через минуту"
         Math.round(diff.toDouble() / MINUTE) <= 45 -> {
-            val n = Math.round(diff.toDouble() / MINUTE)
-            val m = getCorrectMetric(n, TimeUnits.MINUTE)
-            if (isPast) "$n $m назад" else "через $n $m"
+            val n = Math.round(diff.toDouble() / MINUTE).toInt()
+            val m = TimeUnits.MINUTE.plural(n)
+            if (isPast) "$m назад" else "через $m"
         }
         Math.round(diff.toDouble() / MINUTE) <= 75 -> if(isPast) "час назад" else "через час"
         Math.round(diff.toDouble() / HOUR) <= 22 -> {
-            val n = Math.round(diff.toDouble() / HOUR)
-            val m = getCorrectMetric(n, TimeUnits.HOUR)
-            if(isPast) "$n $m назад" else "через $n $m"
+            val n = Math.round(diff.toDouble() / HOUR).toInt()
+            val m = TimeUnits.HOUR.plural(n)
+            if(isPast) "$m назад" else "через $m"
         }
         Math.round(diff.toDouble() / HOUR) <= 26 -> if(isPast) "день назад" else "через день"
         Math.round(diff.toDouble() / DAY) <= 360 -> {
-            val n = Math.round(diff.toDouble() / DAY)
-            val m = getCorrectMetric(n, TimeUnits.DAY)
-            if(isPast) "$n $m назад" else "через $n $m"
+            val n = Math.round(diff.toDouble() / DAY).toInt()
+            val m = TimeUnits.DAY.plural(n)
+            if(isPast) "$m назад" else "через $m"
         }
         else -> if(isPast) "более года назад" else "более чем через год"
-    }
-}
-
-fun getCorrectMetric(N:Long = 1, unit:TimeUnits = TimeUnits.MINUTE):String{
-    return when(N)
-    {
-        1L -> when(unit){
-            TimeUnits.SECOND -> "секунду"
-            TimeUnits.MINUTE -> "минуту"
-            TimeUnits.HOUR -> "час"
-            TimeUnits.DAY -> "день"
-        }
-        in 2..4 -> when(unit){
-            TimeUnits.SECOND -> "секунды"
-            TimeUnits.MINUTE -> "минуты"
-            TimeUnits.HOUR -> "часа"
-            TimeUnits.DAY -> "дня"
-        }
-        0L, in 5..20 -> when(unit){
-            TimeUnits.SECOND -> "секунд"
-            TimeUnits.MINUTE -> "минут"
-            TimeUnits.HOUR -> "часов"
-            TimeUnits.DAY -> "дней"
-        }
-        else -> getCorrectMetric(N%10, unit)
     }
 }
