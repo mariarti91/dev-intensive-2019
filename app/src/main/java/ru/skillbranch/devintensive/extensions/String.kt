@@ -6,5 +6,8 @@ fun String.truncate(count: Int = 16):String {
 }
 
 fun String.stripHtml():String {
-    return this
+    return this.replace("<.*?>".toRegex(),"")
+            .replace("&.{2,6}?;".toRegex(),"")
+            .replace("\\s+".toRegex(), " ")
+            .trim()
 }
