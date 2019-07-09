@@ -9,11 +9,21 @@ const val MINUTE = 60 * SECOND
 const val HOUR = 60 * MINUTE
 const val DAY = 24 * HOUR
 
-enum class TimeUnits{
-    SECOND,
-    MINUTE,
-    HOUR,
-    DAY
+enum class TimeUnits(val one:String, val twofour:String, val many:String){
+    SECOND("секунду", "секунды", "секунд"),
+    MINUTE("минуту","минуты","минут"),
+    HOUR("час","часа","часов"),
+    DAY("день","дня","дней");
+    fun plural(value: Int):String{
+        val n = value % 100
+        return when(if(n > 20) n % 10 else n)
+        {
+            1 -> "$value $one"
+            in 2..4 -> "$value $twofour"
+            0, in 5..20 -> "$value $many"
+            else -> "так быть не должно"
+        }
+    }
 }
 
 fun Date.format(pattern: String = "HH:mm:ss dd.MM.yy"):String {
