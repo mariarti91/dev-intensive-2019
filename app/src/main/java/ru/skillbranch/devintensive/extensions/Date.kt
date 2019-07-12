@@ -32,7 +32,7 @@ fun Date.format(pattern: String = "HH:mm:ss dd.MM.yy"):String {
 }
 
 fun Date.add(value: Int, units: TimeUnits): Date{
-    var time = this.time;
+    var time = this.time
 
     time += when(units){
         TimeUnits.SECOND -> value * SECOND
@@ -45,8 +45,7 @@ fun Date.add(value: Int, units: TimeUnits): Date{
 }
 
 fun Date.humanizeDiff(date:Date = Date()):String{
-    var diff = (Date().time - this.time)
-    var metrics = TimeUnits.SECOND
+    var diff = date.time - this.time
 
     val isPast = diff >= 0
     if(!isPast) diff *= -1
