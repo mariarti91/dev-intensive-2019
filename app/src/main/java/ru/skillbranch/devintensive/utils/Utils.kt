@@ -19,7 +19,7 @@ object  Utils {
     }
 
 
-    fun cyrilicToLatin(c:Char):String{
+    private fun cyrilicToLatin(c:Char):String{
         return when (c) {
             'а' -> "a"
             'б' -> "b"
@@ -92,7 +92,6 @@ object  Utils {
     }
 
     fun transliteration(payload: String?, divider :String = " "):String?{
-        var result = ""
         val sb = StringBuilder()
         payload?.forEach()
         {
