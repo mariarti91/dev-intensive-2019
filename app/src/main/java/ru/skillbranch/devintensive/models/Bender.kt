@@ -27,7 +27,7 @@ class Bender(var status:Status = Status.NORMAL, var question: Question = Questio
         NORMAL(Triple(255, 255, 255)),
         WARNING(Triple(255, 120, 0)),
         DANGER(Triple(255, 60, 60)),
-        CRITICAL(Triple(255, 255, 0));
+        CRITICAL(Triple(255, 0, 0));
 
         fun nextStatus():Status{
             return if (this.ordinal < values().lastIndex)  {
@@ -40,26 +40,20 @@ class Bender(var status:Status = Status.NORMAL, var question: Question = Questio
     }
 
     enum class Question(val question: String, val answers:List<String>){
-        NAME("Как меня зовут?", listOf("бендер", "bender")) {
-            override fun nextQuestion(): Question = PROFESSION
-        },
-        PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")){
-            override fun nextQuestion(): Question = MATERIAL
-        },
-        MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")){
-            override fun nextQuestion(): Question = BDAY
-        },
-        BDAY("Когда меня создали?", listOf("2993")){
-            override fun nextQuestion(): Question = SERIAL
-        },
-        SERIAL("Мой серийный номер?", listOf("2716057")){
-            override fun nextQuestion(): Question = IDLE
-        },
-        IDLE("На этом всё, вопросов больше нет", listOf()){
-            override fun nextQuestion(): Question = IDLE
-        };
+        NAME("Как меня зовут?", listOf("бендер", "bender")),
+        PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")),
+        MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")),
+        BDAY("Когда меня создали?", listOf("2993")),
+        SERIAL("Мой серийный номер?", listOf("2716057")),
+        IDLE("На этом все, вопросов больше нет", listOf());
 
-        abstract fun nextQuestion():Question
+        fun nextQuestion():Question{
+            return if (this.ordinal < values().lastIndex)  {
+                values()[this.ordinal + 1]
+            }else{
+                IDLE
+            }
+        }
     }
 
 }
