@@ -2,11 +2,6 @@ package ru.skillbranch.devintensive.models
 
 import java.util.*
 
-enum class MessageTypes{
-    TEXT,
-    IMAGE
-}
-
 abstract class BaseMessage(
     val id: String,
     val from: User?,
