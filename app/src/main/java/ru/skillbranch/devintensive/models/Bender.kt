@@ -1,5 +1,7 @@
 package ru.skillbranch.devintensive.models
 
+import androidx.core.text.isDigitsOnly
+
 class Bender(var status:Status = Status.NORMAL, var question: Question = Question.NAME) {
 
     fun askQuestion():String = when(question) {
@@ -13,18 +15,25 @@ class Bender(var status:Status = Status.NORMAL, var question: Question = Questio
     }
 
     fun listenAnswer(answer:String): Pair<String, Triple<Int, Int, Int>>{
-        return if(question.answers.contains(answer)) {
-            question = question.nextQuestion()
-            "Отлично - ты справился\n${question.question}" to status.color
-        }else{
-            if(status == Status.CRITICAL){
-                status = Status.NORMAL
-                question = Question.NAME
-                "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
-            }else{
-                status = status.nextStatus()
-                "Это неправильный ответ\n${question.question}" to status.color
+
+        val validationResult = question.validateAnswer(answer)
+
+        return if(validationResult.first) {
+            if (question.answers.contains(answer.toLowerCase())) {
+                question = question.nextQuestion()
+                "Отлично - ты справился\n${question.question}" to status.color
+            } else {
+                if (status == Status.CRITICAL) {
+                    status = Status.NORMAL
+                    question = Question.NAME
+                    "Это неправильный ответ. Давай все по новой\n${question.question}" to status.color
+                } else {
+                    status = status.nextStatus()
+                    "Это неправильный ответ\n${question.question}" to status.color
+                }
             }
+        } else {
+            "${validationResult.second}\n${question.question}" to status.color
         }
     }
 
@@ -46,12 +55,57 @@ class Bender(var status:Status = Status.NORMAL, var question: Question = Questio
     }
 
     enum class Question(val question: String, val answers:List<String>){
-        NAME("Как меня зовут?", listOf("бендер", "bender")),
-        PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")),
-        MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")),
-        BDAY("Когда меня создали?", listOf("2993")),
-        SERIAL("Мой серийный номер?", listOf("2716057")),
-        IDLE("На этом все, вопросов больше нет", listOf());
+        NAME("Как меня зовут?", listOf("бендер", "bender")){
+            override fun validateAnswer(answer: String): Pair<Boolean, String> {
+
+                return if(answer[0].isUpperCase()){
+                    true to ""
+                }else{
+                    return false to "Имя должно начинаться с заглавной буквы"
+                }
+            }
+        },
+        PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")){
+            override fun validateAnswer(answer: String): Pair<Boolean, String> {
+                return if(answer[0].isLowerCase()) {
+                    true to ""
+                }else{
+                    return false to "Профессия должна начинаться со строчной буквы"
+                }
+            }
+        },
+        MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")){
+            override fun validateAnswer(answer: String): Pair<Boolean, String> {
+                return if(answer.none{ it.isDigit() }) {
+                    true to ""
+                }else{
+                    false to "Материал не должен содержать цифр"
+                }
+            }
+        },
+        BDAY("Когда меня создали?", listOf("2993")){
+            override fun validateAnswer(answer: String): Pair<Boolean, String> {
+                return if(answer.isDigitsOnly()){
+                    true to ""
+                }else{
+                    false to "Год моего рождения должен содержать только цифры"
+                }
+            }
+        },
+        SERIAL("Мой серийный номер?", listOf("2716057")){
+            override fun validateAnswer(answer: String): Pair<Boolean, String> {
+                return if(answer.length == 7 && answer.isDigitsOnly()){
+                    true to ""
+                }else{
+                    false to "Серийный номер содержит только цифры, и их 7"
+                }
+            }
+        },
+        IDLE("На этом все, вопросов больше нет", listOf()){
+            override fun validateAnswer(answer: String): Pair<Boolean, String> {
+                return true to ""
+            }
+        };
 
         fun nextQuestion():Question{
             return if (this.ordinal < values().lastIndex)  {
@@ -60,6 +114,8 @@ class Bender(var status:Status = Status.NORMAL, var question: Question = Questio
                 IDLE
             }
         }
+
+        abstract fun validateAnswer(answer: String):Pair<Boolean,String>
     }
 
 }
