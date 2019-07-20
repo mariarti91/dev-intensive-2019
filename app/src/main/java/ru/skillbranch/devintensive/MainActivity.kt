@@ -6,21 +6,24 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.skillbranch.devintensive.extensions.hideKeyboard
 import ru.skillbranch.devintensive.models.Bender
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEditorActionListener {
     lateinit var benderImage: ImageView
 
     lateinit var textTxt: TextView
+
     lateinit var messageEt: EditText
     lateinit var sendBtn: ImageView
     lateinit var benderObj: Bender
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -32,6 +35,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         val userinput = savedInstanceState?.getString("USERINPUT")
         et_message.setText(userinput)
+        et_message.imeOptions = EditorInfo.IME_ACTION_DONE
+        et_message.setOnEditorActionListener(this)
 
         val status = savedInstanceState?.getString("STATUS")?:Bender.Status.NORMAL.name
         val question = savedInstanceState?.getString("QUESTION")?:Bender.Question.NAME.name
@@ -76,6 +81,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         outState?.putString("QUESTION", benderObj.question.name)
         outState?.putString("USERINPUT", messageEt.text.toString())
         Log.d("M_MainActivity", "onSaveInstanceStatus ${benderObj.status.name} ${benderObj.question.name}")
+    }
+
+    override fun onEditorAction(tv: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        if(actionId == EditorInfo.IME_ACTION_DONE) {
+            Log.d("M_MainActivity", "action done")
+            hideKeyboard()
+            iv_send.callOnClick()
+            return true
+        }
+        return false
     }
 
     override fun onClick(v: View?) {
