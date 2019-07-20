@@ -98,7 +98,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
     override fun onClick(v: View?) {
         if(v?.id == R.id.iv_send){
             Log.d("M_MainActivity", "Клавиатура скрыта: ${isKeyboardClosed()}")
-            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().trim())
+            val answer = messageEt.text.toString().trim()
+            if(answer.isEmpty()) return
+            val (phrase, color) = benderObj.listenAnswer(answer)
             messageEt.setText("")
             val (r,g,b) = color
             benderImage.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
