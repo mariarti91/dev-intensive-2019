@@ -14,6 +14,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.extensions.hideKeyboard
+import ru.skillbranch.devintensive.extensions.isKeyboardClosed
+import ru.skillbranch.devintensive.extensions.isKeyboardOpen
 import ru.skillbranch.devintensive.models.Bender
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEditorActionListener {
@@ -95,6 +97,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
 
     override fun onClick(v: View?) {
         if(v?.id == R.id.iv_send){
+            Log.d("M_MainActivity", "Клавиатура скрыта: ${isKeyboardClosed()}")
             val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString().trim())
             messageEt.setText("")
             val (r,g,b) = color
