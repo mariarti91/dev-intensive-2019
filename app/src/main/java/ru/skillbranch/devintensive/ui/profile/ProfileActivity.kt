@@ -1,20 +1,24 @@
 package ru.skillbranch.devintensive.ui.profile
 
-import android.graphics.ColorFilter
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
+import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity() {
@@ -26,6 +30,22 @@ class ProfileActivity : AppCompatActivity() {
     private var viewModel: ProfileViewModel = ProfileViewModel()
     var isEditMode = false
     lateinit var viewFields : Map<String, TextView>
+    private val repositoryTextWatcher = object : TextWatcher{
+        override fun afterTextChanged(p0: Editable?) {
+            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            val re = Regex("https://github\\.com/.+/.+")
+            et_repository.error = if(re.containsMatchIn(p0.toString())) null else "lal"
+        }
+
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +107,7 @@ class ProfileActivity : AppCompatActivity() {
             viewModel.switchTheme()
         }
 
+
     }
 
     private fun showCurrentMode(isEdit: Boolean) {
@@ -120,6 +141,12 @@ class ProfileActivity : AppCompatActivity() {
             background.colorFilter = filter
             setImageDrawable(icon)
         }
+
+        if(isEdit){
+            et_repository.addTextChangedListener(repositoryTextWatcher)
+        }else{
+            et_repository.removeTextChangedListener(repositoryTextWatcher)
+        }
     }
 
     private fun saveProfileInfo(){
@@ -134,13 +161,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
 }
-
-
-
-
-
-
-
 
 
 
