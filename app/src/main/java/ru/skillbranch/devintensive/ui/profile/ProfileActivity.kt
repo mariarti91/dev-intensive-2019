@@ -1,8 +1,6 @@
 package ru.skillbranch.devintensive.ui.profile
 
 import android.graphics.*
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -11,14 +9,12 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 
 import ru.skillbranch.devintensive.models.Profile
-import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity() {
@@ -33,8 +29,8 @@ class ProfileActivity : AppCompatActivity() {
     private val repositoryTextWatcher = object : TextWatcher{
         override fun afterTextChanged(p0: Editable?) {
             //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            val re = Regex("https://github\\.com/.+/.+")
-            et_repository.error = if(re.containsMatchIn(p0.toString())) null else "lal"
+            val re = Regex("^((https:\\/\\/)?(www.)?github\\.com\\/(?!(enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|login|join))[\\w\\d]+)?$")
+            wr_repository?.error = if(re.containsMatchIn(p0.toString())) null else "Невалидный адрес репозитория"
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -55,11 +51,11 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Log.d("M_MainActivity", "onSaveInstanceStatus")
 
-        outState?.putBoolean(IS_EDIT_MODE, isEditMode)
+        outState.putBoolean(IS_EDIT_MODE, isEditMode)
 
     }
 
@@ -154,14 +150,13 @@ class ProfileActivity : AppCompatActivity() {
                 firstName = et_first_name.text.toString(),
                 lastName = et_last_name.text.toString(),
                 about = et_about.text.toString(),
-                repository = et_repository.text.toString()
+                repository = if (wr_repository.error.isNullOrEmpty()) et_repository.text.toString() else ""
         ).apply {
             viewModel.saveProfileData(this)
         }
     }
 
 }
-
 
 
 
