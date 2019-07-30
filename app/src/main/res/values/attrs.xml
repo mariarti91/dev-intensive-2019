@@ -5,7 +5,8 @@
     </declare-styleable>
 
     <declare-styleable name="CircleImageView">
-        <attr name="diameter" format="integer"/>
+        <attr name="cv_borderColor" format="color"/>
+        <attr name="cv_borderWidth" format="dimension"/>
     </declare-styleable>
 
     <attr name="colorAccentedSurface" format="reference"/>
