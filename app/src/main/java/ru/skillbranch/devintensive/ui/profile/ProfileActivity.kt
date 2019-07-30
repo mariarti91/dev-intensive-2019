@@ -29,7 +29,7 @@ class ProfileActivity : AppCompatActivity() {
     private val repositoryTextWatcher = object : TextWatcher{
         override fun afterTextChanged(p0: Editable?) {
             //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            val re = Regex("^((https:\\/\\/)?(www.)?github\\.com\\/(?!(enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|login|join))[\\w\\d]+)?$")
+            val re = Regex("^((https:\\/\\/)?(www.)?github\\.com\\/(?!(enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|login|join))[^\\/]+)?$")
             wr_repository?.error = if(re.containsMatchIn(p0.toString())) null else "Невалидный адрес репозитория"
         }
 
