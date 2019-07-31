@@ -18,7 +18,7 @@ class Bender(var status:Status = Status.NORMAL, var question: Question = Questio
 
         val validationResult = question.validateAnswer(answer)
 
-        return if(validationResult.first) {
+        return if(validationResult.isNullOrEmpty()) {
             if (question.answers.contains(answer.toLowerCase())) {
                 question = question.nextQuestion()
                 "Отлично - ты справился\n${question.question}" to status.color
@@ -33,7 +33,7 @@ class Bender(var status:Status = Status.NORMAL, var question: Question = Questio
                 }
             }
         } else {
-            "${validationResult.second}\n${question.question}" to status.color
+            "${validationResult}\n${question.question}" to status.color
         }
     }
 
@@ -56,54 +56,54 @@ class Bender(var status:Status = Status.NORMAL, var question: Question = Questio
 
     enum class Question(val question: String, val answers:List<String>){
         NAME("Как меня зовут?", listOf("бендер", "bender")){
-            override fun validateAnswer(answer: String): Pair<Boolean, String> {
+            override fun validateAnswer(answer: String):String? {
 
                 return if(answer[0].isUpperCase()){
-                    true to ""
+                    null
                 }else{
-                    return false to "Имя должно начинаться с заглавной буквы"
+                    "Имя должно начинаться с заглавной буквы"
                 }
             }
         },
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")){
-            override fun validateAnswer(answer: String): Pair<Boolean, String> {
+            override fun validateAnswer(answer: String):String? {
                 return if(answer[0].isLowerCase()) {
-                    true to ""
+                    null
                 }else{
-                    return false to "Профессия должна начинаться со строчной буквы"
+                    "Профессия должна начинаться со строчной буквы"
                 }
             }
         },
         MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")){
-            override fun validateAnswer(answer: String): Pair<Boolean, String> {
+            override fun validateAnswer(answer: String):String? {
                 return if(answer.none{ it.isDigit() }) {
-                    true to ""
+                   null
                 }else{
-                    false to "Материал не должен содержать цифр"
+                    "Материал не должен содержать цифр"
                 }
             }
         },
         BDAY("Когда меня создали?", listOf("2993")){
-            override fun validateAnswer(answer: String): Pair<Boolean, String> {
+            override fun validateAnswer(answer: String):String? {
                 return if(answer.isDigitsOnly()){
-                    true to ""
+                    null
                 }else{
-                    false to "Год моего рождения должен содержать только цифры"
+                    "Год моего рождения должен содержать только цифры"
                 }
             }
         },
         SERIAL("Мой серийный номер?", listOf("2716057")){
-            override fun validateAnswer(answer: String): Pair<Boolean, String> {
+            override fun validateAnswer(answer: String):String? {
                 return if(answer.length == 7 && answer.isDigitsOnly()){
-                    true to ""
+                    null
                 }else{
-                    false to "Серийный номер содержит только цифры, и их 7"
+                   "Серийный номер содержит только цифры, и их 7"
                 }
             }
         },
         IDLE("На этом все, вопросов больше нет", listOf()){
-            override fun validateAnswer(answer: String): Pair<Boolean, String> {
-                return true to ""
+            override fun validateAnswer(answer: String):String? {
+                return null
             }
         };
 
@@ -115,7 +115,7 @@ class Bender(var status:Status = Status.NORMAL, var question: Question = Questio
             }
         }
 
-        abstract fun validateAnswer(answer: String):Pair<Boolean,String>
+        abstract fun validateAnswer(answer: String):String?
     }
 
 }
