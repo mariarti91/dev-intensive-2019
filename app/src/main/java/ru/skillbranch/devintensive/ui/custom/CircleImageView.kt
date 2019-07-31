@@ -2,17 +2,17 @@ package ru.skillbranch.devintensive.ui.custom
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
+import android.content.res.Resources
+import android.graphics.*
+import android.text.TextPaint
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
-import androidx.core.graphics.drawable.toBitmap
-import kotlinx.android.synthetic.main.activity_profile.view.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.utils.Utils
+
 
 /*
 Реализуй CustomView с названием класса CircleImageView и кастомными xml атрибутами
@@ -36,18 +36,99 @@ class CircleImageView@JvmOverloads constructor(
     companion object{
         @SuppressLint("ResourceType")
         @ColorRes private const val DEFAULT_BORDER_COLOR = Color.WHITE
-        @Dimension private const val DEFAULT_BORDER_WIDTH = 2f
+        @Dimension private const val DEFAULT_BORDER_WIDTH = 2
     }
 
     private var borderColor = DEFAULT_BORDER_COLOR
-    private var borderWidth = DEFAULT_BORDER_WIDTH
+    private var borderWidth = Utils.dpToPx(DEFAULT_BORDER_WIDTH, context)
+
+    private var avatarBitmap: Bitmap? = null
 
     init {
         if(attrs != null){
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
             borderColor = a.getInt(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
-            borderWidth = a.getDimension(R.styleable.CircleImageView_cv_borderWidth, DEFAULT_BORDER_WIDTH)
+            borderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, DEFAULT_BORDER_WIDTH)
             a.recycle()
         }
+    }
+
+    @Dimension fun getBorderWidth():Int = borderWidth
+    fun setBorderWidth(@Dimension dp:Int) {
+        borderWidth = Utils.dpToPx(dp, context)
+        invalidate()
+    }
+
+    fun getBorderColor():Int = borderColor
+
+    @SuppressLint("ResourceAsColor")
+    fun setBorderColor(hex:String){
+        borderColor = Color.parseColor(hex)
+        invalidate()
+    }
+
+    fun setBorderColor(@ColorRes colorId: Int){
+        borderColor = colorId
+        invalidate()
+    }
+
+    @SuppressLint("ResourceAsColor")
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        if(avatarBitmap != null) {
+            canvas.drawBitmap(avatarBitmap!!, 0F, 0F, null)
+//            var paint = Paint()
+//            paint.color = Color.RED
+//            paint.strokeWidth = borderWidth.toFloat()
+//            paint.isAntiAlias = true
+//            paint.isDither = true
+//
+//            var centerX = (width / 2).toFloat()
+//            var centerY = (height / 2).toFloat()
+//            var radius = centerX
+//
+//            canvas.drawCircle(centerX, centerY, radius, paint)
+        }
+    }
+
+    @SuppressLint("ResourceAsColor")
+    fun generateAvatar(initials: String?, theme: Resources.Theme){
+        if(initials.isNullOrEmpty()){
+            avatarBitmap = null
+            return
+        }
+
+        avatarBitmap = Bitmap.createBitmap(layoutParams.width, layoutParams.height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(avatarBitmap!!)
+
+        val color = TypedValue()
+        theme.resolveAttribute(R.attr.colorAccent, color, true)
+
+        var paint = Paint()
+        paint.color = color.data
+        paint.strokeWidth = borderWidth.toFloat()
+        paint.isAntiAlias = true
+        paint.isDither = true
+
+        var centerX = (layoutParams.width/2).toFloat()
+        var centerY = (layoutParams.height/2).toFloat()
+        var radius = centerX
+
+        canvas.drawCircle(centerX, centerY, radius, paint)
+
+        paint.color = borderColor
+        paint.style = Paint.Style.STROKE
+        radius = centerX - borderWidth/2
+        canvas.drawCircle(centerX, centerY, radius, paint)
+
+        val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
+        textPaint.textSize = 40F * resources.displayMetrics.scaledDensity
+        textPaint.color = Color.WHITE
+
+        val textWidth = textPaint.measureText(initials) * 0.5F
+        val textBaseLineHeight = textPaint.fontMetrics.ascent * -0.4F
+
+        canvas.drawText(initials, centerX - textWidth, centerY + textBaseLineHeight, textPaint)
+        invalidate()
     }
 }

@@ -1,5 +1,7 @@
 package ru.skillbranch.devintensive.utils
 
+import android.content.Context
+
 object  Utils {
     fun parseFullName(fullName: String?):Pair<String?, String?>{
         val parts: List<String>? = fullName?.split(" ")
@@ -98,5 +100,13 @@ object  Utils {
             sb.append(if(it == ' ') divider else cyrilicToLatin(it))
         }
         return sb.toString()
+    }
+
+    fun dpToPx(dp:Int, context: Context): Int{
+        return (dp * context.resources.displayMetrics.density).toInt()
+    }
+
+    fun pxToDp(px:Int, context: Context): Int{
+        return (px / context.resources.displayMetrics.density).toInt()
     }
 }

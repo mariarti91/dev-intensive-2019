@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 class ProfileActivity : AppCompatActivity() {
@@ -28,18 +29,15 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var viewFields : Map<String, TextView>
     private val repositoryTextWatcher = object : TextWatcher{
         override fun afterTextChanged(p0: Editable?) {
-            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             val re = Regex("^((https:\\/\\/)?(www.)?github\\.com\\/(?!(enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|login|join))[^\\/]+)?$")
             wr_repository?.error = if(re.containsMatchIn(p0.toString())) null else "Невалидный адрес репозитория"
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+            }
 
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+            }
 
     }
 
@@ -75,6 +73,7 @@ class ProfileActivity : AppCompatActivity() {
                 v.text = it[k].toString()
             }
         }
+        generateAvatar(profile)
     }
 
     private fun initViews(savedInstanceState: Bundle?) {
@@ -154,6 +153,11 @@ class ProfileActivity : AppCompatActivity() {
         ).apply {
             viewModel.saveProfileData(this)
         }
+    }
+
+    private fun generateAvatar(profile: Profile) {
+        val initials = Utils.toInitials(profile.firstName, profile.lastName)
+        iv_avatar.generateAvatar(initials, theme)
     }
 
 }
