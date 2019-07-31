@@ -29,7 +29,7 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var viewFields : Map<String, TextView>
     private val repositoryTextWatcher = object : TextWatcher{
         override fun afterTextChanged(p0: Editable?) {
-            val re = Regex("^((https:\\/\\/)?(www.)?github\\.com\\/(?!(enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|login|join))[^\\/]+)?$")
+            val re = Regex("^((https://)?(www.)?github.com/(?!(enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|login|join))[^/]+)?$")
             wr_repository?.error = if(re.containsMatchIn(p0.toString())) null else "Невалидный адрес репозитория"
         }
 
