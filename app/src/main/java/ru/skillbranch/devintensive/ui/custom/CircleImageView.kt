@@ -10,6 +10,7 @@ import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
+import androidx.core.graphics.drawable.toDrawable
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.utils.Utils
 
@@ -76,18 +77,7 @@ class CircleImageView@JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if(avatarBitmap != null) {
-            canvas.drawBitmap(avatarBitmap!!, 0F, 0F, null)
-//            var paint = Paint()
-//            paint.color = Color.RED
-//            paint.strokeWidth = borderWidth.toFloat()
-//            paint.isAntiAlias = true
-//            paint.isDither = true
-//
-//            var centerX = (width / 2).toFloat()
-//            var centerY = (height / 2).toFloat()
-//            var radius = centerX
-//
-//            canvas.drawCircle(centerX, centerY, radius, paint)
+            setImageDrawable(avatarBitmap!!.toDrawable(resources))
         }
     }
 
