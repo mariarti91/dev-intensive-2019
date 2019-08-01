@@ -42,9 +42,6 @@ class CircleImageView@JvmOverloads constructor(
 
     private var borderColor = DEFAULT_BORDER_COLOR
     private var borderWidth = DEFAULT_BORDER_WIDTH
-    //Utils.dpToPx(DEFAULT_BORDER_WIDTH, context)
-    private var avatarBitmap: Bitmap? = null
-
     init {
         if(attrs != null){
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
@@ -73,12 +70,29 @@ class CircleImageView@JvmOverloads constructor(
         invalidate()
     }
 
-    @SuppressLint("ResourceAsColor")
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-//        if(avatarBitmap != null) {
-//            setImageDrawable(avatarBitmap!!.toDrawable(resources))
-//        }
+        createBorder(canvas)
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun createBorder(canvas: Canvas) {
+        if(borderWidth > 0) {
+            val dpBorderWidth = Utils.dpToPx(borderWidth, context).toFloat()
+
+            val paint = Paint()
+            paint.strokeWidth = dpBorderWidth
+            paint.isAntiAlias = true
+            paint.isDither = true
+            paint.color = borderColor
+            paint.style = Paint.Style.STROKE
+
+            val centerX = (layoutParams.width / 2).toFloat()
+            val centerY = (layoutParams.height / 2).toFloat()
+            val radius = centerX - dpBorderWidth / 2
+
+            canvas.drawCircle(centerX, centerY, radius, paint)
+        }
     }
 
     @SuppressLint("ResourceAsColor")
