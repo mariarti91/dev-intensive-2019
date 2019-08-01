@@ -29,8 +29,20 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var viewFields : Map<String, TextView>
     private val repositoryTextWatcher = object : TextWatcher{
         override fun afterTextChanged(repoUrl: Editable?) {
-            val re = Regex("^((https://)?(www.)?github.com/(?!(enterprise|features|topics|collections|trending|events|marketplace|pricing|nonprofit|customer-stories|security|login|join))[^/]+/?)?$")
-            wr_repository?.error = if(re.matches(repoUrl.toString())) null else "Невалидный адрес репозитория"
+            if(repoUrl.isNullOrEmpty()) {
+                wr_repository?.error = null
+                return
+            }
+
+            val servicePaths = listOf("enterprise", "features", "topics", "collections", "trending", "events", "marketplace", "pricing", "nonprofit", "customer-stories", "security", "login", "join")
+            val re = Regex("^(https://)?(www.)?github.com/([^/_\\s]+)/?$")
+            val username = re.matchEntire(repoUrl.toString())?.groups?.get(3)?.value
+            if(username.isNullOrEmpty()) {
+                wr_repository?.error = "Невалидный адрес репозитория"
+                return
+            }
+
+            wr_repository?.error = if(servicePaths.contains(username)) "Невалидный адрес репозитория" else null
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -52,7 +64,6 @@ class ProfileActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Log.d("M_MainActivity", "onSaveInstanceStatus")
-
         outState.putBoolean(IS_EDIT_MODE, isEditMode)
 
     }
@@ -161,7 +172,3 @@ class ProfileActivity : AppCompatActivity() {
     }
 
 }
-
-
-
-
