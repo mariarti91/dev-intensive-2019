@@ -41,8 +41,8 @@ class CircleImageView@JvmOverloads constructor(
     }
 
     private var borderColor = DEFAULT_BORDER_COLOR
-    private var borderWidth = Utils.dpToPx(DEFAULT_BORDER_WIDTH, context)
-
+    private var borderWidth = DEFAULT_BORDER_WIDTH
+    //Utils.dpToPx(DEFAULT_BORDER_WIDTH, context)
     private var avatarBitmap: Bitmap? = null
 
     init {
@@ -54,9 +54,9 @@ class CircleImageView@JvmOverloads constructor(
         }
     }
 
-    @Dimension fun getBorderWidth():Int = borderWidth
+    fun getBorderWidth():Int = borderWidth
     fun setBorderWidth(@Dimension dp:Int) {
-        borderWidth = Utils.dpToPx(dp, context)
+        borderWidth = dp
         invalidate()
     }
 
@@ -76,49 +76,49 @@ class CircleImageView@JvmOverloads constructor(
     @SuppressLint("ResourceAsColor")
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if(avatarBitmap != null) {
-            setImageDrawable(avatarBitmap!!.toDrawable(resources))
-        }
+//        if(avatarBitmap != null) {
+//            setImageDrawable(avatarBitmap!!.toDrawable(resources))
+//        }
     }
 
     @SuppressLint("ResourceAsColor")
     fun generateAvatar(initials: String?, theme: Resources.Theme){
-        if(initials.isNullOrEmpty()){
-            avatarBitmap = null
-            return
-        }
-
-        avatarBitmap = Bitmap.createBitmap(layoutParams.width, layoutParams.height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(avatarBitmap!!)
-
-        val color = TypedValue()
-        theme.resolveAttribute(R.attr.colorAccent, color, true)
-
-        var paint = Paint()
-        paint.color = color.data
-        paint.strokeWidth = borderWidth.toFloat()
-        paint.isAntiAlias = true
-        paint.isDither = true
-
-        var centerX = (layoutParams.width/2).toFloat()
-        var centerY = (layoutParams.height/2).toFloat()
-        var radius = centerX
-
-        canvas.drawCircle(centerX, centerY, radius, paint)
-
-        paint.color = borderColor
-        paint.style = Paint.Style.STROKE
-        radius = centerX - borderWidth/2
-        canvas.drawCircle(centerX, centerY, radius, paint)
-
-        val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
-        textPaint.textSize = 40F * resources.displayMetrics.scaledDensity
-        textPaint.color = Color.WHITE
-
-        val textWidth = textPaint.measureText(initials) * 0.5F
-        val textBaseLineHeight = textPaint.fontMetrics.ascent * -0.4F
-
-        canvas.drawText(initials, centerX - textWidth, centerY + textBaseLineHeight, textPaint)
-        invalidate()
+//        if(initials.isNullOrEmpty()){
+//            avatarBitmap = null
+//            return
+//        }
+//
+//        avatarBitmap = Bitmap.createBitmap(layoutParams.width, layoutParams.height, Bitmap.Config.ARGB_8888)
+//        val canvas = Canvas(avatarBitmap!!)
+//
+//        val color = TypedValue()
+//        theme.resolveAttribute(R.attr.colorAccent, color, true)
+//
+//        var paint = Paint()
+//        paint.color = color.data
+//        paint.strokeWidth = borderWidth.toFloat()
+//        paint.isAntiAlias = true
+//        paint.isDither = true
+//
+//        var centerX = (layoutParams.width/2).toFloat()
+//        var centerY = (layoutParams.height/2).toFloat()
+//        var radius = centerX
+//
+//        canvas.drawCircle(centerX, centerY, radius, paint)
+//
+//        paint.color = borderColor
+//        paint.style = Paint.Style.STROKE
+//        radius = centerX - borderWidth/2
+//        canvas.drawCircle(centerX, centerY, radius, paint)
+//
+//        val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
+//        textPaint.textSize = 40F * resources.displayMetrics.scaledDensity
+//        textPaint.color = Color.WHITE
+//
+//        val textWidth = textPaint.measureText(initials) * 0.5F
+//        val textBaseLineHeight = textPaint.fontMetrics.ascent * -0.4F
+//
+//        canvas.drawText(initials, centerX - textWidth, centerY + textBaseLineHeight, textPaint)
+//        invalidate()
     }
 }
