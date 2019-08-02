@@ -28,13 +28,14 @@ class ProfileActivity : AppCompatActivity() {
     var isEditMode = false
     lateinit var viewFields : Map<String, TextView>
     private val repositoryTextWatcher = object : TextWatcher{
+        val servicePaths = listOf("enterprise", "features", "topics", "collections", "trending", "events", "marketplace", "pricing", "nonprofit", "customer-stories", "security", "login", "join")
         override fun afterTextChanged(repoUrl: Editable?) {
+
             if(repoUrl.isNullOrEmpty()) {
                 wr_repository?.error = null
                 return
             }
 
-            val servicePaths = listOf("enterprise", "features", "topics", "collections", "trending", "events", "marketplace", "pricing", "nonprofit", "customer-stories", "security", "login", "join")
             val re = Regex("^(https://)?(www.)?github.com/([^/_\\s]+)/?$")
             val username = re.matchEntire(repoUrl.toString())?.groups?.get(3)?.value
             if(username.isNullOrEmpty()) {
@@ -46,10 +47,10 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+        }
 
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+        }
 
     }
 
@@ -58,14 +59,12 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         initViews(savedInstanceState)
         initViewModel()
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         Log.d("M_MainActivity", "onSaveInstanceStatus")
         outState.putBoolean(IS_EDIT_MODE, isEditMode)
-
     }
 
     private fun initViewModel(){
@@ -84,7 +83,6 @@ class ProfileActivity : AppCompatActivity() {
                 v.text = it[k].toString()
             }
         }
-        generateAvatar(profile)
     }
 
     private fun initViews(savedInstanceState: Bundle?) {
@@ -105,6 +103,7 @@ class ProfileActivity : AppCompatActivity() {
 
         btn_edit.setOnClickListener {
             if(isEditMode) saveProfileInfo()
+            wr_repository.error = null
             isEditMode = !isEditMode
             showCurrentMode(isEditMode)
         }
