@@ -143,7 +143,7 @@ class ProfileActivity : AppCompatActivity() {
 
        et_repository.addTextChangedListener(object : TextWatcher{
            override fun afterTextChanged(repoUrl: Editable?) {
-               viewModel.onRepositoryChange(repoUrl.toString())
+               viewModel.onRepositoryChange(repoUrl.toString().trim())
            }
            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}

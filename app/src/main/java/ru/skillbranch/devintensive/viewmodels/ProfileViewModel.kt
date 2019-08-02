@@ -57,7 +57,7 @@ class ProfileViewModel : ViewModel(){
             return false
         }
 
-        val re = Regex("^(https://)?(www\\.)?github\\.com/([^/\\.\\s]+)/?$")
+        val re = Regex("^(https://)?(www\\.)?github\\.com/([^/\\s]+)/?$")
         val username = re.matchEntire(repository)?.groups?.get(3)?.value
         if(username.isNullOrEmpty()) {
             return true
