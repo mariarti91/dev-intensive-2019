@@ -65,8 +65,9 @@ class CircleImageView@JvmOverloads constructor(
         invalidate()
     }
 
+    @SuppressLint("ResourceAsColor")
     fun setBorderColor(@ColorRes colorId: Int){
-        borderColor = colorId
+        borderColor = resources.getColor(colorId, null)
         invalidate()
     }
 

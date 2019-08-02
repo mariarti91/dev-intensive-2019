@@ -29,6 +29,7 @@ class ProfileActivity : AppCompatActivity() {
     lateinit var viewFields : Map<String, TextView>
     private val repositoryTextWatcher = object : TextWatcher{
         val servicePaths = listOf("enterprise", "features", "topics", "collections", "trending", "events", "marketplace", "pricing", "nonprofit", "customer-stories", "security", "login", "join")
+        val errorMessage = "Невалидный адрес репозитория"
         override fun afterTextChanged(repoUrl: Editable?) {
 
             if(repoUrl.isNullOrEmpty()) {
@@ -36,14 +37,14 @@ class ProfileActivity : AppCompatActivity() {
                 return
             }
 
-            val re = Regex("^(https://)?(www.)?github.com/([^/_\\s]+)/?$")
+            val re = Regex("^(https://)?(www.)?github.com/([^/\\s]+)/?$")
             val username = re.matchEntire(repoUrl.toString())?.groups?.get(3)?.value
             if(username.isNullOrEmpty()) {
-                wr_repository?.error = "Невалидный адрес репозитория"
+                wr_repository?.error = errorMessage
                 return
             }
 
-            wr_repository?.error = if(servicePaths.contains(username)) "Невалидный адрес репозитория" else null
+            wr_repository?.error = if(servicePaths.contains(username)) errorMessage else null
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
