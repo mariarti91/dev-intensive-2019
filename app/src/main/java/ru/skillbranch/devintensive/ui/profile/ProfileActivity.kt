@@ -33,23 +33,8 @@ class ProfileActivity : AppCompatActivity() {
     var isEditMode = false
     lateinit var viewFields : Map<String, TextView>
     private val repositoryTextWatcher = object : TextWatcher{
-        val servicePaths = listOf("enterprise", "features", "topics", "collections", "trending", "events", "marketplace", "pricing", "nonprofit", "customer-stories", "security", "login", "join")
-        val errorMessage = "Невалидный адрес репозитория"
         override fun afterTextChanged(repoUrl: Editable?) {
-
-            if(repoUrl.isNullOrEmpty()) {
-                wr_repository?.error = null
-                return
-            }
-
-            val re = Regex("^(https://)?(www\\.)?github\\.com/([^/\\.\\s]+)/?$")
-            val username = re.matchEntire(repoUrl.toString())?.groups?.get(3)?.value
-            if(username.isNullOrEmpty()) {
-                wr_repository?.error = errorMessage
-                return
-            }
-
-            wr_repository?.error = if(servicePaths.contains(username)) errorMessage else null
+            viewModel.onRepositoryChange(repoUrl.toString())
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -77,6 +62,12 @@ class ProfileActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         viewModel.getProfileData().observe(this, Observer { updateUI(it) })
         viewModel.getTheme().observe(this, Observer { updateTheme(it) })
+        viewModel.getRepositoryError().observe(this, Observer {updateRepositoryError(it)})
+    }
+
+    private fun updateRepositoryError(isError: Boolean) {
+        wr_repository.isErrorEnabled = isError
+        wr_repository.error = if(isError) "Невалидный адрес репозитория" else null
     }
 
     private fun updateTheme(theme: Int) {
@@ -97,7 +88,6 @@ class ProfileActivity : AppCompatActivity() {
         if(initials != currentInitials) {
             currentInitials = initials
             iv_avatar.setImageDrawable(generateNewAvatar())
-            //iv_avatar.setAvatarDrawable(generateNewAvatar())
         }
     }
 
@@ -151,7 +141,13 @@ class ProfileActivity : AppCompatActivity() {
             viewModel.switchTheme()
         }
 
-
+       et_repository.addTextChangedListener(object : TextWatcher{
+           override fun afterTextChanged(repoUrl: Editable?) {
+               viewModel.onRepositoryChange(repoUrl.toString())
+           }
+           override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+           override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+       })
     }
 
     private fun showCurrentMode(isEdit: Boolean) {
@@ -185,12 +181,6 @@ class ProfileActivity : AppCompatActivity() {
             background.colorFilter = filter
             setImageDrawable(icon)
         }
-
-        if(isEdit){
-            et_repository.addTextChangedListener(repositoryTextWatcher)
-        }else{
-            et_repository.removeTextChangedListener(repositoryTextWatcher)
-        }
     }
 
     private fun saveProfileInfo(){
@@ -198,7 +188,7 @@ class ProfileActivity : AppCompatActivity() {
                 firstName = et_first_name.text.toString(),
                 lastName = et_last_name.text.toString(),
                 about = et_about.text.toString(),
-                repository = if (wr_repository.error.isNullOrEmpty()) et_repository.text.toString() else ""
+                repository = if (wr_repository.isErrorEnabled) "" else et_repository.text.toString()
         ).apply {
             viewModel.saveProfileData(this)
         }

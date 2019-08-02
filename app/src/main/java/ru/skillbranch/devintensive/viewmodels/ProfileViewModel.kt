@@ -12,6 +12,10 @@ class ProfileViewModel : ViewModel(){
     private val repository:PreferencesRepository = PreferencesRepository
     private val profileData = MutableLiveData<Profile>()
     private val appTheme = MutableLiveData<Int>()
+    private val isRepositoryInvalidate = MutableLiveData<Boolean>()
+
+    private val repositoryServicePaths = listOf("enterprise", "features", "topics", "collections", "trending", "events", "marketplace", "pricing", "nonprofit", "customer-stories", "security", "login", "join")
+
 
     init{
         Log.d("M_ProfileViewModel", "init view model")
@@ -33,6 +37,8 @@ class ProfileViewModel : ViewModel(){
         profileData.value = profile
     }
 
+    fun getRepositoryError():LiveData<Boolean> = isRepositoryInvalidate
+
     fun switchTheme() {
         if(appTheme.value == AppCompatDelegate.MODE_NIGHT_YES){
             appTheme.value = AppCompatDelegate.MODE_NIGHT_NO
@@ -40,5 +46,23 @@ class ProfileViewModel : ViewModel(){
             appTheme.value = AppCompatDelegate.MODE_NIGHT_YES
         }
         repository.saveAppTheme(appTheme.value!!)
+    }
+
+    fun onRepositoryChange(repository: String) {
+        isRepositoryInvalidate.value = isRepositoryInvalid(repository)
+    }
+
+    private fun isRepositoryInvalid(repository: String): Boolean? {
+        if(repository.isNullOrEmpty()) {
+            return false
+        }
+
+        val re = Regex("^(https://)?(www\\.)?github\\.com/([^/\\.\\s]+)/?$")
+        val username = re.matchEntire(repository)?.groups?.get(3)?.value
+        if(username.isNullOrEmpty()) {
+            return true
+        }
+
+        return (repositoryServicePaths.contains(username))
     }
 }
