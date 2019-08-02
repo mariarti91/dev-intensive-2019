@@ -74,6 +74,7 @@ class CircleImageView@JvmOverloads constructor(
 
     fun setAvatarDrawable(avatar: Drawable?){
         avatarDrawable = avatar
+        invalidate()
     }
 
     fun getAvatarDrawable():Drawable? = avatarDrawable
