@@ -72,34 +72,14 @@ class CircleImageView@JvmOverloads constructor(
         invalidate()
     }
 
-    fun setAvatarDrawable(avatar: Drawable?){
-        avatarDrawable = avatar
-        invalidate()
-    }
-
-    fun getAvatarDrawable():Drawable? = avatarDrawable
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        drawAvatar(canvas)
         createBorder(canvas)
-    }
-
-    private fun drawAvatar(canvas: Canvas) {
-        if(avatarDrawable != null) {
-            //val drawable = if (avatarDrawable != null) avatarDrawable else resources.getDrawable(R.drawable.ic_avatar, null)
-            val avatarBitmap = avatarDrawable?.toBitmap(iv_avatar.width, iv_avatar.height)
-            val padding = Utils.dpToPx(borderWidth, context) / 2F
-            canvas.drawBitmap(avatarBitmap!!, padding, padding, null)
-        }
-        else {
-            iv_avatar.setImageDrawable(null)
-        }
     }
 
     @SuppressLint("ResourceAsColor")
     private fun createBorder(canvas: Canvas) {
-        if(borderWidth > 0) {
+        if(drawable != null &&  borderWidth > 0) {
             val dpBorderWidth = Utils.dpToPx(borderWidth, context).toFloat()
 
             val paint = Paint()

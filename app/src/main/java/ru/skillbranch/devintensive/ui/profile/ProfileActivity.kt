@@ -96,7 +96,8 @@ class ProfileActivity : AppCompatActivity() {
     private fun updateAvatar(initials: String?) {
         if(initials != currentInitials) {
             currentInitials = initials
-            iv_avatar.setAvatarDrawable(generateNewAvatar())
+            iv_avatar.setImageDrawable(generateNewAvatar())
+            //iv_avatar.setAvatarDrawable(generateNewAvatar())
         }
     }
 
