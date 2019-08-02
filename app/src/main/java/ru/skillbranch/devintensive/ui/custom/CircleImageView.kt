@@ -2,15 +2,14 @@ package ru.skillbranch.devintensive.ui.custom
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.*
-import android.text.TextPaint
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
-import androidx.core.graphics.drawable.toDrawable
+import androidx.core.graphics.drawable.toBitmap
+import kotlinx.android.synthetic.main.activity_profile.view.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.utils.Utils
 
@@ -40,6 +39,7 @@ class CircleImageView@JvmOverloads constructor(
         @Dimension private const val DEFAULT_BORDER_WIDTH = 2
     }
 
+    private var avatarDrawable:Drawable? = null
     private var borderColor = DEFAULT_BORDER_COLOR
     private var borderWidth = DEFAULT_BORDER_WIDTH
     init {
@@ -47,6 +47,7 @@ class CircleImageView@JvmOverloads constructor(
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
             borderColor = a.getInt(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
             borderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, DEFAULT_BORDER_WIDTH)
+            clipToOutline = true
             a.recycle()
         }
     }
@@ -71,9 +72,23 @@ class CircleImageView@JvmOverloads constructor(
         invalidate()
     }
 
+    fun setAvatarDrawable(avatar: Drawable?){
+        avatarDrawable = avatar
+    }
+
+    fun getAvatarDrawable():Drawable? = avatarDrawable
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        drawAvatar(canvas)
         createBorder(canvas)
+    }
+
+    private fun drawAvatar(canvas: Canvas) {
+        val drawable = if(avatarDrawable != null) avatarDrawable else resources.getDrawable(R.drawable.ic_avatar, null)
+        val avatarBitmap = drawable?.toBitmap(iv_avatar.width, iv_avatar.height)
+        val padding = Utils.dpToPx(borderWidth, context)/2F
+        canvas.drawBitmap(avatarBitmap!!, padding, padding, null)
     }
 
     @SuppressLint("ResourceAsColor")
@@ -94,46 +109,5 @@ class CircleImageView@JvmOverloads constructor(
 
             canvas.drawCircle(centerX, centerY, radius, paint)
         }
-    }
-
-    @SuppressLint("ResourceAsColor")
-    fun generateAvatar(initials: String?, theme: Resources.Theme){
-//        if(initials.isNullOrEmpty()){
-//            avatarBitmap = null
-//            return
-//        }
-//
-//        avatarBitmap = Bitmap.createBitmap(layoutParams.width, layoutParams.height, Bitmap.Config.ARGB_8888)
-//        val canvas = Canvas(avatarBitmap!!)
-//
-//        val color = TypedValue()
-//        theme.resolveAttribute(R.attr.colorAccent, color, true)
-//
-//        var paint = Paint()
-//        paint.color = color.data
-//        paint.strokeWidth = borderWidth.toFloat()
-//        paint.isAntiAlias = true
-//        paint.isDither = true
-//
-//        var centerX = (layoutParams.width/2).toFloat()
-//        var centerY = (layoutParams.height/2).toFloat()
-//        var radius = centerX
-//
-//        canvas.drawCircle(centerX, centerY, radius, paint)
-//
-//        paint.color = borderColor
-//        paint.style = Paint.Style.STROKE
-//        radius = centerX - borderWidth/2
-//        canvas.drawCircle(centerX, centerY, radius, paint)
-//
-//        val textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG)
-//        textPaint.textSize = 40F * resources.displayMetrics.scaledDensity
-//        textPaint.color = Color.WHITE
-//
-//        val textWidth = textPaint.measureText(initials) * 0.5F
-//        val textBaseLineHeight = textPaint.fontMetrics.ascent * -0.4F
-//
-//        canvas.drawText(initials, centerX - textWidth, centerY + textBaseLineHeight, textPaint)
-//        invalidate()
     }
 }
