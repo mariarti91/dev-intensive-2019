@@ -42,7 +42,7 @@ class ProfileActivity : AppCompatActivity() {
                 return
             }
 
-            val re = Regex("^(https://)?(www\\.)?github\\.com/([^/\\s]+)(?<!${servicePaths.joinToString("|")})/?$")
+            val re = Regex("^(https://)?(www\\.)?github\\.com/([^/\\.\\s]+)(?<!${servicePaths.joinToString("|")})/?$")
                     //wr_repository?.error = if(re.matches(repoUrl)) null else errorMessage
             val username = re.matchEntire(repoUrl.toString())?.groups?.get(3)?.value
             if(username.isNullOrEmpty()) {
