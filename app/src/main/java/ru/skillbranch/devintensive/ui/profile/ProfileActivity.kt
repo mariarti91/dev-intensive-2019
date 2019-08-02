@@ -42,15 +42,15 @@ class ProfileActivity : AppCompatActivity() {
                 return
             }
 
-            val re = Regex("^(https://)?(www.)?github.com/([^/\\s]+)(?<!${servicePaths.joinToString("|")})/?$")
-            wr_repository?.error = if(re.matches(repoUrl)) null else errorMessage
-//            val username = re.matchEntire(repoUrl.toString())?.groups?.get(3)?.value
-//            if(username.isNullOrEmpty()) {
-//                wr_repository?.error = errorMessage
-//                return
-//            }
-//
-//            wr_repository?.error = if(servicePaths.contains(username)) errorMessage else null
+            val re = Regex("^(https://)?(www\\.)?github\\.com/([^/\\s]+)(?<!${servicePaths.joinToString("|")})/?$")
+                    //wr_repository?.error = if(re.matches(repoUrl)) null else errorMessage
+            val username = re.matchEntire(repoUrl.toString())?.groups?.get(3)?.value
+            if(username.isNullOrEmpty()) {
+                wr_repository?.error = errorMessage
+                return
+            }
+
+            wr_repository?.error = if(servicePaths.contains(username)) errorMessage else null
         }
 
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
