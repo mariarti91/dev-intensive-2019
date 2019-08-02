@@ -184,11 +184,17 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfileInfo(){
+        if(wr_repository.isErrorEnabled)
+        {
+            et_repository.text.clear()
+            wr_repository.isErrorEnabled = false
+            wr_repository.error = null
+        }
         Profile(
                 firstName = et_first_name.text.toString(),
                 lastName = et_last_name.text.toString(),
                 about = et_about.text.toString(),
-                repository = if (wr_repository.isErrorEnabled) "" else et_repository.text.toString()
+                repository = et_repository.text.toString()
         ).apply {
             viewModel.saveProfileData(this)
         }
