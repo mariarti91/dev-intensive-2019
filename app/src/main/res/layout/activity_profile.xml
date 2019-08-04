@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/spacing_normal_16">
-            
+
             <ImageButton
                 android:id="@+id/btn_switch_theme"
                 android:layout_width="@dimen/btn_round_size_40"
@@ -139,7 +139,15 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    <ScrollView
+        android:id="@+id/sv_editable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="false">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -254,5 +262,6 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/spacing_normal_16"/>
     </LinearLayout>
-
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

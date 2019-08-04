@@ -1,5 +1,6 @@
 package ru.skillbranch.devintensive.ui.profile
 
+import android.app.Application
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
@@ -11,11 +12,13 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
+import ru.skillbranch.devintensive.App
 import ru.skillbranch.devintensive.R
 
 import ru.skillbranch.devintensive.models.Profile
@@ -54,6 +57,9 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun updateRepositoryError(isError: Boolean) {
+        if(isError){
+            sv_editable.scrollTo(0, Utils.dpToPx(32, App.applicationContext()))
+        }
         wr_repository.isErrorEnabled = isError
         wr_repository.error = if(isError) "Невалидный адрес репозитория" else null
     }
