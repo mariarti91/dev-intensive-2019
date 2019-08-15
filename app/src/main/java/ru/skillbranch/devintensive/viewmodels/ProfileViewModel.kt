@@ -53,11 +53,11 @@ class ProfileViewModel : ViewModel(){
     }
 
     private fun isRepositoryInvalid(repository: String): Boolean? {
-        if(repository.isNullOrEmpty()) {
+        if(repository.isEmpty()) {
             return false
         }
 
-        val re = Regex("^(https://)?(www\\.)?github\\.com/([\\d\\w\\-_]+)/?$")
+        val re = Regex(pattern = "^(https://)?(www\\.)?github\\.com/([\\d\\w\\-_]+)/?$")
         val username = re.matchEntire(repository)?.groups?.get(3)?.value
         if(username.isNullOrEmpty()) {
             return true

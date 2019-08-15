@@ -94,8 +94,9 @@ object  Utils {
     }
 
     fun transliteration(payload: String?, divider :String = " "):String?{
+        if(payload.isNullOrEmpty()) return null
         val sb = StringBuilder()
-        payload?.forEach()
+        payload.forEach()
         {
             sb.append(if(it == ' ') divider else cyrilicToLatin(it))
         }

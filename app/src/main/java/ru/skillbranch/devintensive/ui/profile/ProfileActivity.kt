@@ -1,6 +1,5 @@
 package ru.skillbranch.devintensive.ui.profile
 
-import android.app.Application
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +11,6 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.Observer
