@@ -1,4 +1,4 @@
-package ru.skillbranch.devintensive.models
+package ru.skillbranch.devintensive.models.data
 
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
@@ -59,40 +59,40 @@ data class User(
         var lastVisit:Date = Date()
         var isOnline:Boolean = false
 
-        fun id(s:String):Builder{
+        fun id(s:String): Builder {
             id = s
             return this
         }
 
-        fun firstName(s:String?):Builder{
+        fun firstName(s:String?): Builder {
             firstName = s
             return this
         }
-        fun lastName(s:String?):Builder{
+        fun lastName(s:String?): Builder {
             lastName = s
             return this
         }
-        fun avatar(s:String?):Builder{
+        fun avatar(s:String?): Builder {
             avatar = s
             return this
         }
-        fun rating(n:Int):Builder{
+        fun rating(n:Int): Builder {
             rating = n
             return this
         }
-        fun respect(n:Int):Builder{
+        fun respect(n:Int): Builder {
             respect = n
             return this
         }
-        fun lastVisit(d:Date):Builder{
+        fun lastVisit(d:Date): Builder {
             lastVisit = d
             return this
         }
-        fun isOnline(b:Boolean):Builder{
+        fun isOnline(b:Boolean): Builder {
             isOnline = b
             return this
         }
-        fun build():User{
+        fun build(): User {
             lastId++
             return User(id, firstName, lastName, avatar, rating, respect, lastVisit, isOnline)
         }
