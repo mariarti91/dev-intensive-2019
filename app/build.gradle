@@ -39,6 +39,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
 
     //androidTestImplementation 'com.android.support:palette-v7:29.0.0'
     androidTestImplementation 'androidx.test:rules:1.2.0'
@@ -46,3 +47,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 
 }
+
+
