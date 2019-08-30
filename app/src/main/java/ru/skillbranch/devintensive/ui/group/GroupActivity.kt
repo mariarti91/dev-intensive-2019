@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
@@ -53,8 +54,18 @@ class GroupActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == android.R.id.home){
+            finish()
+            overridePendingTransition(R.anim.idle, R.anim.bottom_down)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun initToolBar() {
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun initViews() {
@@ -65,6 +76,13 @@ class GroupActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@GroupActivity)
             addItemDecoration(divider)
         }
+
+        fab.setOnClickListener {
+            viewModel.handleCreateGroup()
+            finish()
+            overridePendingTransition(R.anim.idle, R.anim.bottom_down)
+        }
+
     }
 
     private fun intiViewModel() {
@@ -74,7 +92,13 @@ class GroupActivity : AppCompatActivity() {
         })
         viewModel.getSelectedData().observe(this, Observer {
             updateChips(it)
+            toggleFab(it.size>1)
         })
+    }
+
+    private fun toggleFab(isShow: Boolean) {
+        if(isShow) fab.show()
+        else fab.hide()
     }
 
     private fun addClipToGroup(user:UserItem){
