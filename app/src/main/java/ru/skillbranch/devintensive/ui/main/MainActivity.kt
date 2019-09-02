@@ -3,8 +3,6 @@ package ru.skillbranch.devintensive.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
@@ -15,8 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ChatItemTouchHelperCallback
+import ru.skillbranch.devintensive.ui.archive.ArchiveActivity
 import ru.skillbranch.devintensive.ui.group.GroupActivity
 import ru.skillbranch.devintensive.viewmodels.MainViewModel
 
@@ -61,7 +61,10 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
 
         chatAdapter = ChatAdapter{
-            Snackbar.make(rv_chat_list, "Click on ${it.title}", Snackbar.LENGTH_LONG).show()
+            when(it.chatType) {
+                ChatType.ARCHIVE -> startActivity(Intent(this, ArchiveActivity::class.java))
+                else -> Snackbar.make(rv_chat_list, "Click on ${it.title}", Snackbar.LENGTH_LONG).show()
+            }
         }
 
         val divider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
