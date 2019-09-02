@@ -29,34 +29,48 @@ data class Chat(
         else -> "${lastMessage?.from?.firstName} - отправил фото" to lastMessage?.from?.firstName
     }
 
-    private fun isSingle(): Boolean = members.size == 1
-
     fun toChatItem(): ChatItem {
-        return if (isSingle()) {
-            val user = members.first()
-            ChatItem(
-                id,
-                user.avatar,
-                Utils.toInitials(user.firstName, user.lastName) ?: "??",
-                "${user.firstName ?: ""} ${user.lastName ?: ""}",
-                lastMessageShort().first,
-                unreadableMessageCount(),
-                lastMessageDate()?.shortFormat(),
-                user.isOnline
-            )
-        } else {
-            ChatItem(
-                id,
-                null,
-                "",
-                title,
-                lastMessageShort().first,
-                unreadableMessageCount(),
-                lastMessageDate()?.shortFormat(),
-                false,
-                ChatType.GROUP,
-                lastMessageShort().second
-            )
+        return when (members.size) {
+            0 -> {
+                ChatItem(
+                        id,
+                        null,
+                        "",
+                        title,
+                        lastMessageShort().first,
+                        unreadableMessageCount(),
+                        lastMessageDate()?.shortFormat(),
+                        false,
+                        ChatType.ARCHIVE
+                )
+            }
+            1 -> {
+                val user = members.first()
+                ChatItem(
+                        id,
+                        user.avatar,
+                        Utils.toInitials(user.firstName, user.lastName) ?: "??",
+                        "${user.firstName ?: ""} ${user.lastName ?: ""}",
+                        lastMessageShort().first,
+                        unreadableMessageCount(),
+                        lastMessageDate()?.shortFormat(),
+                        user.isOnline
+                )
+            }
+            else -> {
+                ChatItem(
+                        id,
+                        null,
+                        "",
+                        title,
+                        lastMessageShort().first,
+                        unreadableMessageCount(),
+                        lastMessageDate()?.shortFormat(),
+                        false,
+                        ChatType.GROUP,
+                        lastMessageShort().second
+                )
+            }
         }
     }
 }

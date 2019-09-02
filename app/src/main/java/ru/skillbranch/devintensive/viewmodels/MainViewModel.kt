@@ -36,15 +36,11 @@ class MainViewModel :ViewModel() {
     }
 
     fun addToArchive(chatId: String) {
-        val chat = chatRepository.find(chatId)
-        chat ?: return
-        chatRepository.update(chat.copy(isArchived = true))
+        chatRepository.addToArchive(chatId)
     }
 
     fun restoreFromArchive(chatId: String){
-        val chat = chatRepository.find(chatId)
-        chat ?: return
-        chatRepository.update(chat.copy(isArchived = false))
+        chatRepository.restoreFromArchive(chatId)
     }
 
     fun handleSearchQuery(queryStr: String) {
