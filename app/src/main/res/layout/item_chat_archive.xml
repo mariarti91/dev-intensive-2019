@@ -24,10 +24,12 @@
         android:fontFamily="sans-serif-medium"
         android:textSize="14sp"
         android:layout_toRightOf="@id/iv_avatar_archive"
+        android:layout_toLeftOf="@id/tv_date_archive"
+        android:layout_marginRight="@dimen/spacing_normal_16"
         android:text="@string/chat_archive_title"/>
 
     <TextView
-        android:id="@+id/tv_author_archive"
+        android:id="@+id/tv_message_author_archive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/color_primary"
@@ -44,11 +46,21 @@
         android:layout_height="wrap_content"
         android:textColor="@color/color_gray_dark"
         android:textSize="14sp"
-        android:layout_toRightOf="@id/tv_author_archive"
+        android:layout_toRightOf="@id/tv_message_author_archive"
         android:layout_toLeftOf="@id/tv_counter_archive"
         android:layout_marginRight="@dimen/spacing_normal_16"
         tools:text="Когда я проходил интенсив я охереневал от происходящего"
         android:layout_below="@id/tv_title_archive"/>
+
+    <TextView
+        android:id="@+id/tv_date_archive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10sp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/color_gray_dark"
+        tools:text="18:00"/>
 
     <TextView
         android:id="@+id/tv_counter_archive"

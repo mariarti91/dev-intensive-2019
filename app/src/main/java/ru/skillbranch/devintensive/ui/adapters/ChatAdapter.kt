@@ -164,6 +164,11 @@ class ChatAdapter(val listener : (ChatItem)->Unit) : RecyclerView.Adapter<ChatAd
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
             //TODO avatar
 
+            with(tv_date_archive) {
+                visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE
+                text = item.lastMessageDate
+            }
+
             with(tv_counter_archive) {
                 visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
                 text = item.messageCount.toString()
@@ -172,7 +177,7 @@ class ChatAdapter(val listener : (ChatItem)->Unit) : RecyclerView.Adapter<ChatAd
             tv_title_archive.text = item.title
             tv_message_archive.text = item.shortDescription
 
-            with(tv_author_archive){
+            with(tv_message_author_archive){
                 visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
                 text = item.author
             }
