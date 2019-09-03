@@ -41,7 +41,8 @@ data class Chat(
                         unreadableMessageCount(),
                         lastMessageDate()?.shortFormat(),
                         false,
-                        ChatType.ARCHIVE
+                        ChatType.ARCHIVE,
+                        lastMessageShort().second
                 )
             }
             1 -> {
@@ -54,7 +55,9 @@ data class Chat(
                         lastMessageShort().first,
                         unreadableMessageCount(),
                         lastMessageDate()?.shortFormat(),
-                        user.isOnline
+                        user.isOnline,
+                        ChatType.SINGLE,
+                        lastMessageShort().second
                 )
             }
             else -> {

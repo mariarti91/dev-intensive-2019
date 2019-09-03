@@ -50,6 +50,7 @@ object ChatRepository {
         update(chat.copy(isArchived = true))
         val archive = getArchiveItem()
         archive.messages.addAll(chat.messages)
+        archive.messages.sortBy { it.date }
         update(archive)
     }
 
@@ -62,7 +63,6 @@ object ChatRepository {
 
         if(archive.messages.isEmpty()){
             remove(archive)
-
         } else {
             update(archive)
         }

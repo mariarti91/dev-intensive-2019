@@ -56,7 +56,7 @@ class ArchiveActivity : AppCompatActivity() {
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter){
             val chatId = it.id
             viewModel.restoreFromArchive(chatId)
-            Snackbar.make(rv_chat_list, "Вы точно хотите восстановить ${it.title} из архива?", Snackbar.LENGTH_LONG)
+            Snackbar.make(rv_archive_list, "Вы точно хотите восстановить ${it.title} из архива?", Snackbar.LENGTH_LONG)
                     .setAction("Отменить") {
                         viewModel.addToArchive(chatId)
                     }
@@ -64,7 +64,7 @@ class ArchiveActivity : AppCompatActivity() {
         }
 
         val touchHelper = ItemTouchHelper(touchCallback)
-        touchHelper.attachToRecyclerView(rv_chat_list)
+        touchHelper.attachToRecyclerView(rv_archive_list)
 
         with(rv_archive_list){
             adapter = chatAdapter
