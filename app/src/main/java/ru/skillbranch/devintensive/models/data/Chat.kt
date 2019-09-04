@@ -42,7 +42,7 @@ data class Chat(
                         lastMessageDate()?.shortFormat(),
                         false,
                         ChatType.ARCHIVE,
-                        lastMessageShort().second
+                        "@${lastMessageShort().second}"
                 )
             }
             1 -> {
@@ -55,9 +55,7 @@ data class Chat(
                         lastMessageShort().first,
                         unreadableMessageCount(),
                         lastMessageDate()?.shortFormat(),
-                        user.isOnline,
-                        ChatType.SINGLE,
-                        lastMessageShort().second
+                        user.isOnline
                 )
             }
             else -> {
@@ -71,7 +69,7 @@ data class Chat(
                         lastMessageDate()?.shortFormat(),
                         false,
                         ChatType.GROUP,
-                        lastMessageShort().second
+                        "@${lastMessageShort().second}"
                 )
             }
         }
