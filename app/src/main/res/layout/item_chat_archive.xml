@@ -59,7 +59,7 @@
         android:textSize="10sp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:textColor="@color/color_gray_dark"
+        android:textColor="@color/color_item_text"
         tools:text="18:00"/>
 
     <TextView
