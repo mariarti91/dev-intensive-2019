@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="item_background">#1D1D1D</color>
-    <color name="counter_background">#675F7F</color>
+    <color name="color_item_background">#1D1D1D</color>
+    <color name="color_counter_background">#675F7F</color>
+    <color name="color_swiped_area">#2196F3</color>
 
+    <color name="color_toolbar">#272727</color>
+    <color name="color_indicator">#2196F3</color>
+
+    <color name="color_snack_bar">#FFFFFF</color>
+
+    <color name="color_item_title">#FFFFFF</color>
+    <color name="color_item_text">#9CA9BA</color>
+    <color name="color_item_author">#FFFFFF</color>
 
 </resources>

@@ -44,6 +44,7 @@ class ArchiveActivity : AppCompatActivity() {
     private fun initToolBar() {
         toolbar.title = "Архив чатов"
         setSupportActionBar(toolbar)
+        toolbar.setBackgroundColor(resources.getColor(R.color.color_toolbar, theme))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 

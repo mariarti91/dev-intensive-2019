@@ -71,7 +71,7 @@ class ChatItemTouchHelperCallback(
             bottom = itemView.bottom.toFloat()
         }
 
-        bgPaint.color = itemView.resources.getColor(R.color.color_primary_dark, itemView.context.theme)
+        bgPaint.color = itemView.resources.getColor(R.color.color_swiped_area, itemView.context.theme)
 
         canvas.drawRect(bgRect, bgPaint)
 

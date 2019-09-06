@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_group.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.fab
+import kotlinx.android.synthetic.main.activity_main.toolbar
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
@@ -55,7 +58,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initToolBar() {
+        toolbar.title = "Dev-Intensive Chat"
         setSupportActionBar(toolbar)
+        toolbar.setBackgroundColor(resources.getColor(R.color.color_toolbar, theme))
     }
 
     private fun initViews() {

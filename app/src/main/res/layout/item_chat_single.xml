@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_size"
     android:padding="@dimen/spacing_normal_16"
-    android:background="@color/item_background">
+    android:background="@color/color_item_background">
 
     <ru.skillbranch.devintensive.ui.custom.AvatarImageView
         android:id="@+id/iv_avatar_single"
@@ -26,7 +26,7 @@
         android:id="@+id/tv_title_single"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_primary"
+        android:textColor="@color/color_item_author"
         android:fontFamily="sans-serif-medium"
         android:textSize="14sp"
         android:layout_toRightOf="@id/iv_avatar_single"
@@ -39,7 +39,7 @@
         android:id="@+id/tv_message_single"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_gray_dark"
+        android:textColor="@color/color_item_text"
         android:textSize="14sp"
         android:layout_toRightOf="@id/iv_avatar_single"
         android:layout_toLeftOf="@id/tv_counter_single"

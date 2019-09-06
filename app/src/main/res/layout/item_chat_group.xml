@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/item_size"
     android:padding="@dimen/spacing_normal_16"
-    android:background="@android:color/white">
+    android:background="@color/color_item_background">
 
     <ru.skillbranch.devintensive.ui.custom.AvatarImageView
         android:id="@+id/iv_avatar_group"
@@ -19,7 +19,7 @@
         android:id="@+id/tv_title_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_primary"
+        android:textColor="@color/color_item_title"
         android:fontFamily="sans-serif-medium"
         android:textSize="14sp"
         android:layout_toRightOf="@id/iv_avatar_group"
@@ -32,7 +32,7 @@
         android:id="@+id/tv_message_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_primary"
+        android:textColor="@color/color_item_author"
         android:textSize="14sp"
         android:layout_toRightOf="@id/iv_avatar_group"
         android:layout_marginRight="@dimen/spacing_tiny_4"
@@ -44,7 +44,7 @@
         android:id="@+id/tv_message_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_gray_dark"
+        android:textColor="@color/color_item_text"
         android:textSize="14sp"
         android:layout_toRightOf="@id/tv_message_author"
         android:layout_toLeftOf="@id/tv_counter_group"
