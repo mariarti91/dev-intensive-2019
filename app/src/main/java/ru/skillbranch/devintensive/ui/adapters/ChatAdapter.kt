@@ -75,18 +75,18 @@ class ChatAdapter(val listener : (ChatItem)->Unit) : RecyclerView.Adapter<ChatAd
         override val containerView: View?
             get() = itemView
 
+        fun onItemSelected() {
+            itemView.setBackgroundColor(itemView.resources.getColor(R.color.color_item_touched, itemView.context.theme))
+        }
+
+        fun onItemCleared() {
+            itemView.setBackgroundColor(itemView.resources.getColor(R.color.color_item_background, itemView.context.theme))
+        }
+
         abstract fun bind(item: ChatItem, listener: (ChatItem) -> Unit)
     }
 
     inner class SingleViewHolder(convertView: View) : ChatItemViewHolder(convertView), ItemTouchViewHolder{
-        override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
-        }
-
-        override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
-        }
-
         override fun bind(item:ChatItem, listener: (ChatItem)->Unit){
             //TODO avatar
             if(item.avatar == null){
@@ -118,14 +118,6 @@ class ChatAdapter(val listener : (ChatItem)->Unit) : RecyclerView.Adapter<ChatAd
         }
     }
     inner class GroupViewHolder(convertView: View) : ChatItemViewHolder(convertView), ItemTouchViewHolder {
-        override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
-        }
-
-        override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
-        }
-
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
             //TODO avatar
 
@@ -153,14 +145,6 @@ class ChatAdapter(val listener : (ChatItem)->Unit) : RecyclerView.Adapter<ChatAd
         }
     }
     inner class ArchiveViewHolder(convertView: View) : ChatItemViewHolder(convertView), ItemTouchViewHolder {
-        override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
-        }
-
-        override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
-        }
-
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
             //TODO avatar
 

@@ -15,6 +15,7 @@
     <color name="color_green">#4FD149</color>
 
     <color name="color_item_background">#FFFFFF</color>
+    <color name="color_item_touched">#E5E5E5</color>
     <color name="color_counter_background">#581F99</color>
     <color name="color_swiped_area">#1C0E42</color>
 

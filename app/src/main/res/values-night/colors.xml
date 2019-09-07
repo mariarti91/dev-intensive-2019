@@ -2,6 +2,7 @@
 <resources>
 
     <color name="color_item_background">#1D1D1D</color>
+    <color name="color_item_touched">#272727</color>
     <color name="color_counter_background">#675F7F</color>
     <color name="color_swiped_area">#2196F3</color>
 
