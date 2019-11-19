@@ -1,6 +1,5 @@
 package ru.skillbranch.devintensive.ui.adapters
 
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -92,6 +91,7 @@ class ChatAdapter(val listener : (ChatItem)->Unit) : RecyclerView.Adapter<ChatAd
             if(item.avatar == null){
                 Glide.with(itemView)
                         .clear(iv_avatar_single)
+                iv_avatar_single.setInitials(item.initials)
             }else{
                 Glide.with(itemView)
                         .load(item.avatar)
@@ -119,7 +119,7 @@ class ChatAdapter(val listener : (ChatItem)->Unit) : RecyclerView.Adapter<ChatAd
     }
     inner class GroupViewHolder(convertView: View) : ChatItemViewHolder(convertView), ItemTouchViewHolder {
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
-            //TODO avatar
+            iv_avatar_group.setInitials(item.title.substring(0,1))
 
             with(tv_date_group) {
                 visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE
@@ -146,8 +146,6 @@ class ChatAdapter(val listener : (ChatItem)->Unit) : RecyclerView.Adapter<ChatAd
     }
     inner class ArchiveViewHolder(convertView: View) : ChatItemViewHolder(convertView), ItemTouchViewHolder {
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
-            //TODO avatar
-
             with(tv_date_archive) {
                 visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE
                 text = item.lastMessageDate

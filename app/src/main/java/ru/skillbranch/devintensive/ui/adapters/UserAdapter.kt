@@ -54,6 +54,7 @@ class UserAdapter(val listener: (UserItem)->Unit) : RecyclerView.Adapter<UserAda
             }else{
                 Glide.with(itemView)
                         .clear(iv_avatar_user)
+                iv_avatar_user.setInitials(user.initials ?: "??")
             }
 
             sv_indicator.visibility = if(user.isOnline) View.VISIBLE else View.GONE
